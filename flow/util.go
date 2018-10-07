@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/codegangsta/cli"
 	"github.com/juju/errors"
@@ -37,4 +38,12 @@ func HandleErr(err error) {
 		}
 	}
 	fmt.Println(err.Error())
+}
+
+// TODO(waigani) this should live under the VCS domain, not Flows
+const NoCommitErrMsg = "This looks like a new repository. Please make an initial commit before running `lingo review`. This is only Required for the initial commit, subsequent changes to your repo will be picked up by lingo without committing."
+
+// TODO(waigani) use typed error
+func NoCommitErr(err error) bool {
+	return strings.Contains(err.Error(), "ambiguous argument 'HEAD'")
 }
